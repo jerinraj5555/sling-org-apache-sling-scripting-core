@@ -59,9 +59,9 @@ class ContextBvpCollector {
 
     @SuppressWarnings("unchecked")
     public Object addingService(final ServiceReference<?> ref) {
-        final String[] engineNames = Converters.standardConverter()
-                .convert(ref.getProperty(ScriptEngine.NAME))
-                .to(String[].class);
+        final Object prop = ref.getProperty(ScriptEngine.NAME);
+        final String[] engineNames = (prop == null) ? new String[0]
+                : Converters.standardConverter().convert(prop).to(String[].class);
         Object service = bundleContext.getService(ref);
         if (service != null) {
             if (service instanceof Map) {
